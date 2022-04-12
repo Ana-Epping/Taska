@@ -1,0 +1,62 @@
+{
+  "name": "Taska",
+  "description": "Agenda multiplataforma",
+  "author": "Ana Luiza Epping, Bruna Zimmermann Tregnago",
+  "build": {
+    "appId": "br.edu.unoesc.taska"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.19.5",
+    "concurrently": "^7.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "^18.0.1",
+    "electron-builder": "^22.14.13",
+    "electron-is-dev": "^2.0.0",
+    "eletron": "0.0.1-security",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "5.0.0",
+    "sequelize": "^6.18.0",
+    "sqlite3": "^5.0.2",
+    "wait-on": "^6.0.1",
+    "web-vitals": "^2.1.4",
+    "yarn": "^1.22.18"
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "npm run build && electron-builder --linux --win --mac --x64 --ia32 --publish never",
+    "build": "npm run react-build && npm run electron-build",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
