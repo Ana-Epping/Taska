@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <LoginPage />
-      <button onClick={quit}>Sair</button>
+      <button style={{margin:'auto 0 auto auto'}} onClick={quit}>Sair</button>
     </>
   );
 }
