@@ -1,7 +1,4 @@
-const electron = require("electron");
-const { Menu, ipcMain } = electron;
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { Menu, ipcMain, app, BrowserWindow} = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 // const Usuario = require('./db/usuario');
@@ -12,6 +9,7 @@ let mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({
         fullscreen: true,
+        frame: false,
         webPreferences: {
             nodeIntegration: false, // is default value after Electron v5
             contextIsolation: true, // protect against prototype pollution
@@ -51,8 +49,9 @@ app.on("activate", () => {
 //     });
 // }
 
-// ipcMain.on("toMain", (event, args) => {
-//     console.log(args);
-//     if (args.funcao === "login")
-//         doLogin(args.usuario, args.senha);
-// });
+ipcMain.on("toMain", (event, args) => {
+    console.log(args);
+    if (args.funcao === "quit") {
+        app.quit();
+    }
+});
