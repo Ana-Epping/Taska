@@ -1,5 +1,5 @@
-import LoginPage from './pages/LoginPage';
 import './App.css';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   function quit() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <LoginPage />
-      <button style={{margin:'auto 0 auto auto'}} onClick={quit}>Sair</button>
+      <button className='sair-button' style={{margin:'auto 0 auto auto'}} onClick={quit}>Sair</button>
     </>
   );
 }
