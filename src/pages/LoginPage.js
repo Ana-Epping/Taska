@@ -1,15 +1,56 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Alert, Col, Row } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
-const NormalLoginForm = () => {
+const LoginPage = () => {
+  const [usuario] = useState();
+  const [senha] = useState();
+  const [error, setError] = useState();
+  const [success, setSuccess] = useState();
+
+  const errorAlert = error ? <Row>
+    <Col span="8"></Col>
+    <Col span="8">
+      <Alert message="Falha no Login!" type="warning"></Alert>
+    </Col>
+  </Row> : ''
+
+  const login = success ? <Row>
+    <Col span="8"></Col>
+    <Col span="8">
+      <Alert message="Sucesso no Login!" type="warning"></Alert>
+    </Col>
+  </Row> : ''
+
+const processaLogin = () => {
+  window.api.send("toMain", { funcao: "login", usuario: usuario, senha: senha });
+  window.api.receive("fromMain", (resposta) => {
+    if (resposta) {
+      setSuccess(true);
+      setError(false);
+    } else {
+      setSuccess(false);
+      setError(true);
+    }
+  });
+};
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
 
+  function quit() {
+    window.api.send("toMain", { funcao: "quit" });
+  }
+
   return (
     <div className='login'>
       <h1>Login</h1>
-      <br/>
+      <br />
       <Form
         name="normal_login"
         className="login-form"
@@ -17,9 +58,12 @@ const NormalLoginForm = () => {
           remember: true,
         }}
         onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
         <Form.Item
           name="username"
+          value={usuario}
           rules={[
             {
               required: true,
@@ -31,6 +75,7 @@ const NormalLoginForm = () => {
         </Form.Item>
         <Form.Item
           name="password"
+          value={senha}
           rules={[
             {
               required: true,
@@ -44,6 +89,10 @@ const NormalLoginForm = () => {
             placeholder="Senha"
           />
         </Form.Item>
+
+        {errorAlert}
+        {login}
+
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Lembrar-se</Checkbox>
@@ -55,14 +104,19 @@ const NormalLoginForm = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+          <Button type="primary" htmlType="submit" className="login-form-button" onClick={processaLogin}>
+            Entrar
           </Button>
           ou <a href="">cadastre-se!</a>
+        </Form.Item>
+        <Form.Item>
+          <Button className='exit-button' style={{ margin: 'auto 0 auto auto' }} onClick={quit}>
+            Sair
+          </Button>
         </Form.Item>
       </Form>
     </div>
   );
 };
 
-export default () => <NormalLoginForm />;
+export default () => <LoginPage />;

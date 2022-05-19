@@ -41,8 +41,3 @@ constraint fk_situacao_atividade FOREIGN KEY(id_situacao) REFERENCES situacao(id
 constraint fk_rotulo_atividade FOREIGN KEY(id_rotulo) REFERENCES rotulo(id),
 constraint fk_usuario_atividade FOREIGN KEY(id_usuario) REFERENCES usuario(id)
 );
-
-
-
-
-

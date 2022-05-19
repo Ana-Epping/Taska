@@ -13,10 +13,15 @@
   width: 100%;
 }
 
+h1 {
+  font-size: 50px;
+  font-style: italic;
+}
+
 .login {
   width: 300px;
-  padding: 200px 0;
-  margin: auto;
+  padding-top: 12%;
+  margin: 0 auto;
 }
 
 .App {
@@ -28,12 +33,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -42,11 +41,38 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #FFF;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.exit-button {
+  width: 100%;
+  background-color: #ff3535;
+  border: 1px solid transparent;
+  color: #FFF;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.exit-button:hover {
+  background-color: #f94949;
+  color: #FFF;
+  border: none;
+  
+}
+
+.ant-btn-loading-icon {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 @keyframes App-logo-spin {
@@ -56,11 +82,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.sair-button {
-  float: right;
-  background-color: #ff3535;
-  border: none;
-  color: white;
 }

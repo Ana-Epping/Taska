@@ -1,8 +1,7 @@
 const { Menu, ipcMain, app, BrowserWindow} = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-// const Usuario = require('./db/usuario');
-//require('./express');
+const Usuario = require('../DB/usuario');
 
 let mainWindow;
 
@@ -39,19 +38,22 @@ app.on("activate", () => {
     }
 });
 
-
-// function doLogin(usuario, senha) {
-//     Usuario.validaLogin(usuario, senha).then(resposta => {
-//         if (resposta)
-//             mainWindow.webContents.send("fromMain", true)
-//         else
-//             mainWindow.webContents.send("fromMain", false);
-//     });
-// }
+function doLogin(usuario, senha) {
+    Usuario.validaLogin(usuario, senha).then(resposta => {
+        if (resposta)
+            mainWindow.webContents.send("fromMain", true)
+        else
+            mainWindow.webContents.send("fromMain", false);
+    });
+}
 
 ipcMain.on("toMain", (event, args) => {
     console.log(args);
     if (args.funcao === "quit") {
         app.quit();
+    }
+
+    if(args.funcao === "login") {
+        doLogin(args.usuario,args.senha);
     }
 });
