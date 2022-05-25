@@ -1,4 +1,4 @@
-const { Menu, ipcMain, app, BrowserWindow} = require("electron");
+const { Menu, ipcMain, app, BrowserWindow } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 const Usuario = require('../DB/usuario');
@@ -53,7 +53,11 @@ ipcMain.on("toMain", (event, args) => {
         app.quit();
     }
 
-    if(args.funcao === "login") {
-        doLogin(args.usuario,args.senha);
+    if (args.funcao === "login") {
+        doLogin(args.usuario, args.senha);
+    }
+
+    if (args.funcao === "Home") {
+        win.loadURL(`/pages/Home.js`)
     }
 });

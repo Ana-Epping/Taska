@@ -3,8 +3,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
 const LoginPage = () => {
-  const [usuario] = useState();
-  const [senha] = useState();
+  const [usuario, setUsuario] = useState();
+  const [senha, setSenha] = useState();
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
 
@@ -22,18 +22,31 @@ const LoginPage = () => {
     </Col>
   </Row> : ''
 
-const processaLogin = () => {
-  window.api.send("toMain", { funcao: "login", usuario: usuario, senha: senha });
-  window.api.receive("fromMain", (resposta) => {
-    if (resposta) {
-      setSuccess(true);
-      setError(false);
-    } else {
-      setSuccess(false);
-      setError(true);
-    }
-  });
-};
+  const processaLogin = () => {
+    window.api.send("toMain", { funcao: "login", usuario: usuario, senha: senha });
+    window.api.receive("fromMain", (resposta) => {
+      if (resposta) {
+        setSuccess(true);
+        setError(false);
+        toHome();
+      } else {
+        setSuccess(false);
+        setError(true);
+      }
+    });
+  };
+
+  const toHome = () => {
+    window.api.send("toMain", { funcao: "Home" });
+  }
+
+  const salvaUsuario = (e) => {
+    setUsuario(e.target.value);
+  };
+
+  const salvaSenha = (e) => {
+    setSenha(e.target.value);
+  };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -64,6 +77,7 @@ const processaLogin = () => {
         <Form.Item
           name="username"
           value={usuario}
+          onChange={salvaUsuario}
           rules={[
             {
               required: true,
@@ -76,6 +90,7 @@ const processaLogin = () => {
         <Form.Item
           name="password"
           value={senha}
+          onChange={salvaSenha}
           rules={[
             {
               required: true,

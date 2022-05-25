@@ -8,11 +8,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.json({ message: "Bem-vindo ao servidor!" });
 });
 
-app.get("/login", (req, res) => {
+// login page route
+app.get('/login', (req, res) => {
     res.json(true);
     console.log(req);
 });

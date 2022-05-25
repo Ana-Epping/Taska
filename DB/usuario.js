@@ -23,7 +23,7 @@ Usuario.sync({ force: true }).then(() => {
     // Table created
     return Usuario.create({
         usuario: 'admin',
-        senha: 'admin'
+        senha: 'admin123'
     });
 });
 
