@@ -1,7 +1,7 @@
 const { Menu, ipcMain, app, BrowserWindow } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-const Usuario = require('../DB/usuario');
+const Usuario = require('./db/usuario');
 
 let mainWindow;
 
@@ -58,6 +58,6 @@ ipcMain.on("toMain", (event, args) => {
     }
 
     if (args.funcao === "Home") {
-        win.loadURL(`/pages/Home.js`)
+        //win.loadURL(`/pages/Home.js`)
     }
 });

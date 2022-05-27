@@ -1,12 +1,14 @@
 import { Form, Input, Button, Checkbox, Alert, Col, Row } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [usuario, setUsuario] = useState();
   const [senha, setSenha] = useState();
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
+  const navigate = useNavigate();
 
   const errorAlert = error ? <Row>
     <Col span="8"></Col>
@@ -28,17 +30,16 @@ const LoginPage = () => {
       if (resposta) {
         setSuccess(true);
         setError(false);
-        toHome();
+
+        navigate('/atividade');
+
+
       } else {
         setSuccess(false);
         setError(true);
       }
     });
   };
-
-  const toHome = () => {
-    window.api.send("toMain", { funcao: "Home" });
-  }
 
   const salvaUsuario = (e) => {
     setUsuario(e.target.value);

@@ -1,6 +1,5 @@
-import { Form, Input, Button, Checkbox, Alert, Col, Row } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { db } from '../db';
+import { Form, Button} from 'antd';
+
 
 
 const Atividade = () => {
@@ -10,7 +9,7 @@ const Atividade = () => {
     }
 
     function getAtividades() {
-        db.getAtividades();
+        // db.getAtividades();
     }
 
     return (
