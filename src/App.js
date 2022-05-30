@@ -1,7 +1,9 @@
 import './App.css';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
+import Login from './pages/Login';
 import Atividade from './pages/Atividade';
+import Home from './pages/Home';
+import Rotulo from './pages/Rotulo';
 
 // const { confirm } = Modal;
 
@@ -14,8 +16,10 @@ function App() {
     <Link to='/atividade'>About</Link>
   </div> */}
   <Routes>
-    <Route exact path='/' element={<LoginPage />} />
+    <Route exact path='/' element={<Home />} />
+    <Route path='/login' element={<Login />} />
     <Route path='/atividade' element={<Atividade />} />
+    <Route path='/rotulo' element={<Rotulo />} />
   </Routes>
 </Router>
   );

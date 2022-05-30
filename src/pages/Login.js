@@ -3,7 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const Login = () => {
   const [usuario, setUsuario] = useState();
   const [senha, setSenha] = useState();
   const [error, setError] = useState();
@@ -135,4 +135,4 @@ const LoginPage = () => {
   );
 };
 
-export default () => <LoginPage />;
+export default () => <Login />;

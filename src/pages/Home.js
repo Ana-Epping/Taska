@@ -1,4 +1,4 @@
-const PrincipalPage = () => {
+const Home = () => {
   return (
     <div style={{display: 'flex', justifyContent: 'center'}}>
       <h1>Página Principal</h1>
@@ -6,4 +6,4 @@ const PrincipalPage = () => {
   );
 };
 
-export default PrincipalPage;
+export default Home;

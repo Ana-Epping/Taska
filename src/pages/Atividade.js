@@ -13,7 +13,7 @@ const Atividade = () => {
     }
 
     return (
-        <div className='login'>
+        <div className='atividade'>
             <Form>
             <Form.Item>
                     <Button className='exit-button' style={{ margin: 'auto 0 auto auto' }} onClick={getAtividades}>
