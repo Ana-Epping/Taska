@@ -30,9 +30,9 @@ Usuario.sync({ force: true }).then(() => {
 Usuario.validaLogin = (usuario, senha) => {
     return Usuario.findOne({ where: { usuario: usuario, senha: senha } }).then((usuario) => {
         if (usuario)
-            return true;
+            return {success: true, result: usuario};
         else
-            return false;
+            return {success: false};
     });
 }
 

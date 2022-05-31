@@ -20,6 +20,9 @@
   "version": "0.1.1",
   "private": true,
   "dependencies": {
+    "@fullcalendar/core": "^5.11.0",
+    "@fullcalendar/daygrid": "^5.11.0",
+    "@fullcalendar/react": "^5.11.1",
     "antd": "4.19.5",
     "concurrently": "7.1.0",
     "cross-env": "7.0.3",

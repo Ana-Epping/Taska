@@ -40,7 +40,8 @@ app.on("activate", () => {
 
 function doLogin(usuario, senha) {
     Usuario.validaLogin(usuario, senha).then(resposta => {
-        if (resposta)
+        console.log(resposta);
+        if (resposta['success'])
             mainWindow.webContents.send("fromMain", true)
         else
             mainWindow.webContents.send("fromMain", false);
