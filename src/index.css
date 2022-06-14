@@ -1,4 +1,3 @@
-
 /* @import '~@fullcalendar/core/main.css'; */
 @import '~@fullcalendar/daygrid/main.css';
 
@@ -15,6 +14,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.home-calendar{
+
+.home-calendar {
   margin: 20px;
+  height: 200px;
+  width: auto;
 }

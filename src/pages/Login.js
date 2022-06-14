@@ -57,10 +57,6 @@ const Login = () => {
     console.log('Received values of form: ', values);
   };
 
-  function quit() {
-    window.api.send("toMain", { funcao: "quit" });
-  }
-
   return (
     <div className='login'>
       <h1>Login</h1>
@@ -124,11 +120,6 @@ const Login = () => {
             Entrar
           </Button>
           ou <a href="">cadastre-se!</a>
-        </Form.Item>
-        <Form.Item>
-          <Button className='exit-button' style={{ margin: 'auto 0 auto auto' }} onClick={quit}>
-            Sair
-          </Button>
         </Form.Item>
       </Form>
     </div>

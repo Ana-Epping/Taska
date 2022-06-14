@@ -21,7 +21,7 @@ function createWindow() {
 
     mainWindow.on("closed", () => (mainWindow = null));
     //Menu.setApplicationMenu(null);
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 }
 
 app.on("ready", createWindow);
@@ -56,9 +56,5 @@ ipcMain.on("toMain", (event, args) => {
 
     if (args.funcao === "login") {
         doLogin(args.usuario, args.senha);
-    }
-
-    if (args.funcao === "Home") {
-        //win.loadURL(`/pages/Home.js`)
     }
 });
