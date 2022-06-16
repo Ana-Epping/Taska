@@ -3,7 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Usuario = () => {
   const [usuario, setUsuario] = useState();
   const [senha, setSenha] = useState();
   const [error, setError] = useState();
@@ -13,24 +13,24 @@ const Login = () => {
   const errorAlert = error ? <Row>
     <Col span="8"></Col>
     <Col span="8">
-      <Alert message="Falha no Login!" type="warning"></Alert>
+      <Alert message="Falha ao criar usuário!" type="warning"></Alert>
     </Col>
   </Row> : ''
 
   const login = success ? <Row>
     <Col span="8"></Col>
     <Col span="8">
-      <Alert message="Sucesso no Login!" type="warning"></Alert>
+      <Alert message="Sucesso ao criar usuário!" type="warning"></Alert>
     </Col>
   </Row> : ''
 
-  const processaLogin = () => {
-    window.api.send("toMain", { funcao: "login", usuario: usuario, senha: senha });
+  const criaUsuario = () => {
+    window.api.send("toMain", { funcao: "createUsuario", usuario: usuario, senha: senha });
     window.api.receive("fromMain", (resposta) => {
+        console.log('usuario response',resposta);
       if (resposta) {
         setSuccess(true);
         setError(false);
-
         localStorage.setItem("idUsuario", resposta['id']);
         navigate('/');
 
@@ -42,6 +42,9 @@ const Login = () => {
     });
   };
 
+  const navigateLogin = () => {
+    navigate('/login');
+  }
   const salvaUsuario = (e) => {
     setUsuario(e.target.value);
   };
@@ -58,19 +61,10 @@ const Login = () => {
     console.log('Received values of form: ', values);
   };
 
-  const abrirCadastro = () => {
-    console.log('abrir cadastro');
-    navigate('/cadastro-usuario');
-  }
-
-  const cadastro = {
-    color: '#1c8efa', 
-    cursor: 'pointer'
-  };
-
   return (
     <div className='login'>
-      <h1>Login</h1>
+      <p onClick={navigateLogin}>Voltar para o Login</p>
+      <h1>Cadastre-se</h1>
       <br />
       <Form
         name="normal_login"
@@ -116,25 +110,14 @@ const Login = () => {
         {errorAlert}
         {login}
 
-        {/* <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Lembrar-se</Checkbox>
-          </Form.Item>
-
-          <a className="login-form-forgot" href="">
-            Esqueci minha senha
-          </a>
-        </Form.Item> */}
-
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" onClick={processaLogin}>
-            Entrar
+          <Button type="primary" htmlType="submit" className="login-form-button" onClick={criaUsuario}>
+            Cadastrar
           </Button>
-          <div onClick={abrirCadastro} style={cadastro}>cadastre-se</div>
         </Form.Item>
       </Form>
     </div>
   );
 };
 
-export default () => <Login />;
+export default () => <Usuario />;

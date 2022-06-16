@@ -49,7 +49,6 @@
     "electron-builder": "^22.14.13"
   },
   "main": "public/electron.js",
-  "homepage": "./",
   "scripts": {
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",

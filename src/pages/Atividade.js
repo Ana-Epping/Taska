@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Form, Button, Modal } from 'antd';
 import React, { useState } from 'react';
 
 const Atividade = () => {
@@ -22,6 +22,36 @@ const Atividade = () => {
       </Modal>
     </>
   );
+
+    function quit() {
+        window.api.send("toMain", { funcao: "quit" });
+    }
+
+    const getAtividadesUsuario = (usuario) => {
+        window.api.send("toMain", { funcao: "getAtividades", usuario: usuario });
+        window.api.receive("fromMain", (resposta) => {
+            console.log(resposta);
+          if (resposta) {
+          }
+        });
+      };
+
+    return (
+        <div className='atividade'>
+            <Form>
+            <Form.Item>
+                    <Button className='exit-button' style={{ margin: 'auto 0 auto auto' }} onClick={getAtividadesUsuario}>
+                        
+                    </Button>
+                </Form.Item>
+                <Form.Item>
+                    <Button className='exit-button' style={{ margin: 'auto 0 auto auto' }} onClick={quit}>
+                        Sair
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
+    );
 };
 
 export default Atividade;

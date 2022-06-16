@@ -27,19 +27,34 @@ const Atividade = database.define('atividade', {
         type: Sequelize.DATE,
         allowNull: true
     }
+}, {
+    tableName: 'atividade'
 });
     
-Atividade.belongsTo(Rotulo, { foreignKey: "id_rotulo", targetKey: "id" });
-Atividade.belongsTo(Situacao, { foreignKey: "id_situacao", targetKey: "id" });
-Atividade.belongsTo(Usuario, { foreignKey: "id_usuario", targetKey: "id" });
+// Atividade.belongsTo(Rotulo, { foreignKey: "id_rotulo", targetKey: "id" });
+// Atividade.belongsTo(Situacao, { foreignKey: "id_situacao", targetKey: "id" });
+// Atividade.belongsTo(Usuario, { foreignKey: "id_usuario", targetKey: "id" });
 
-Atividade.getAtividades = (idUsuario) => {
-    return Atividade.find({ where: { id_usuario: idUsuario }}).then((atividades) => {
-        if (atividades)
-            return {success: true, result: atividades};
-        else
-            return {success: false};
-    });
+// Atividade.getAtividades = (idUsuario) => {
+//     return Atividade.find({ where: { id_usuario: idUsuario }}).then((atividades) => {
+//         if (atividades)
+//             return {success: true, result: atividades};
+//         else
+//             return {success: false};
+//     });
+// }
+Atividade.getAtividades = async () => {
+    console.log('atividade');
+    let resultado = await Atividade.findAll();
+
+    return resultado;
+    
+    // .then((atividades) => {
+    //     if (atividades)
+    //         return {success: true, result: atividades};
+    //     else
+    //         return {success: false};
+    // });
 }
 
 Atividade.getAtividade = (idUsuario, idAtividade) => {
@@ -69,3 +84,4 @@ Atividade.createAtividade = (atividade) => {
             return {success: false};
     });
 };
+module.exports = Atividade;

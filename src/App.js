@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Atividade from './pages/Atividade';
 import Home from './pages/Home';
 import Rotulo from './pages/Rotulo';
+import Usuario from './pages/Usuario';
 // const { confirm } = Modal;
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/atividade' element={<Atividade />} />
           <Route path='/rotulo' element={<Rotulo />} />
+          <Route path='/cadastro-usuario' element={<Usuario />} />
         </Routes>
       </Router>
     </>

@@ -16,24 +16,16 @@ const Usuario = database.define('usuario', {
         type: Sequelize.STRING,
         allowNull: false
     }
+}, {
+    tableName: 'usuario'
 });
 
-// force: true will drop the table if it already exists
-Usuario.sync({ force: true }).then(() => {
-    // Table created
-    return Usuario.create({
-        usuario: 'admin',
-        senha: 'admin123'
-    });
-});
+Usuario.createUsuario = async (usuario, senha) => {
+    return await Usuario.create({ usuario: usuario, senha: senha });
+};
 
-Usuario.validaLogin = (usuario, senha) => {
-    return Usuario.findOne({ where: { usuario: usuario, senha: senha } }).then((usuario) => {
-        if (usuario)
-            return {success: true, result: usuario};
-        else
-            return {success: false};
-    });
+Usuario.validaLogin = async (usuario, senha) => {
+    return await Usuario.findOne({ where: { usuario: usuario, senha: senha } });
 }
 
 module.exports = Usuario;
