@@ -1,7 +1,6 @@
 import './App.css';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import Atividade from './pages/Atividade';
 import Home from './pages/Home';
 import Rotulo from './pages/Rotulo';
 import Usuario from './pages/Usuario';
@@ -28,7 +27,6 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/atividade' element={<Atividade />} />
           <Route path='/rotulo' element={<Rotulo />} />
           <Route path='/cadastro-usuario' element={<Usuario />} />
         </Routes>

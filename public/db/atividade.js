@@ -1,8 +1,5 @@
 const Sequelize = require('sequelize');
 const database = require('./db');
-const Rotulo = require('./rotulo');
-const Situacao = require('./situacao');
-const Usuario = require('./usuario');
 
 const Atividade = database.define('atividade', {
     id: {
@@ -26,6 +23,10 @@ const Atividade = database.define('atividade', {
     data_fim: {
         type: Sequelize.DATE,
         allowNull: true
+    },
+    id_usuario: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 }, {
     tableName: 'atividade'
@@ -48,13 +49,6 @@ Atividade.getAtividades = async () => {
     let resultado = await Atividade.findAll();
 
     return resultado;
-    
-    // .then((atividades) => {
-    //     if (atividades)
-    //         return {success: true, result: atividades};
-    //     else
-    //         return {success: false};
-    // });
 }
 
 Atividade.getAtividade = (idUsuario, idAtividade) => {
@@ -66,22 +60,16 @@ Atividade.getAtividade = (idUsuario, idAtividade) => {
     });
 }
 
-Atividade.createAtividade = (atividade) => {
+Atividade.createAtividade = async (atividade) => {
 
-    return Atividade.create({
+    return await Atividade.create({
         titulo: atividade['titulo'],
         descricao: atividade['descricao'],
         data_inicio: atividade['data_inicio'],
         data_fim: atividade['data_fim'] || null,
-        id_rotulo: atividade['id_rotulo'],
-        id_situacao: atividade['id_situacao'],
-        id_usuario: atividade['id_usuario'],
-    }).then((atividade) => {
-        console.log('created at ', atividade)
-        if (atividade)
-            return {success: true, result: atividade};
-        else
-            return {success: false};
+        // id_rotulo: atividade['id_rotulo'],
+        // id_situacao: atividade['id_situacao'],
+        id_usuario: atividade['usuario']
     });
 };
 module.exports = Atividade;

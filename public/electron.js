@@ -3,6 +3,7 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 const Usuario = require('./db/usuario');
 const Atividade = require('./db/atividade');
+const { createAtividade } = require("./db/atividade");
 
 let mainWindow;
 
@@ -46,8 +47,8 @@ app.on("activate", () => {
 
 function doLogin(usuario, senha) {
     Usuario.validaLogin(usuario, senha).then(resultado => {
-        console.log('resposta do login ',resultado);
-        if(resultado && resultado['dataValues'])
+        console.log('resposta do login ', resultado);
+        if (resultado && resultado['dataValues'])
             mainWindow.webContents.send("fromMain", resultado['dataValues'])
         else
             mainWindow.webContents.send("fromMain", false);
@@ -57,11 +58,11 @@ function doLogin(usuario, senha) {
 function createUsuario(usuario, senha) {
     console.log('entrou create usuario');
     Usuario.createUsuario(usuario, senha).then((resultado) => {
-        console.log('result ',resultado);
-        if(resultado && resultado['dataValues'])
-        mainWindow.webContents.send("fromMain", resultado['dataValues']);
+        console.log('result ', resultado);
+        if (resultado && resultado['dataValues'])
+            mainWindow.webContents.send("fromMain", resultado['dataValues']);
         else
-        mainWindow.webContents.send("fromMain", false);
+            mainWindow.webContents.send("fromMain", false);
     }).catch((e) => {
         console.log(e);
     });
@@ -69,26 +70,26 @@ function createUsuario(usuario, senha) {
 
 function getAtividadesUsuario(usuario) {
 
-        console.log('Atividades');
+    console.log('Atividades');
 
-            Atividade.getAtividades().then((resultado) => {
-                console.log(resultado);
+    Atividade.getAtividades().then((resultado) => {
+        console.log(resultado);
 
-            }).catch((e) => {
-                console.log(e);
-            });
-            
-            
-            // then(resposta => {
-            // console.log('tes ',resposta);
-            // if (resposta['success'])
-            //     mainWindow.webContents.send("fromMain", {success: true, result: resposta})
-            // else
-            //     mainWindow.webContents.send("fromMain", {success: false, result: resposta});
+    }).catch((e) => {
+        console.log(e);
+    });
+}
 
+function createAtividadesUsuario(usuario, titulo, descricao, data_inicio) {
+    console.log('Atividades');
+let data = {'titulo': titulo, 'descricao': descricao, 'data_inicio': data_inicio, 'usuario': usuario};
+    Atividade.createAtividade(data).then((resultado) => {
+        console.log(resultado);
 
-     //   console.log(Atividade.getAtividades());
-    }
+    }).catch((e) => {
+        console.log(e);
+    });
+}
 
 ipcMain.on("toMain", (event, args) => {
     console.log('ARGS', args);
@@ -113,5 +114,10 @@ ipcMain.on("toMain", (event, args) => {
     if (args.funcao === "getAtividades") {
         console.log('at');
         getAtividadesUsuario(args.usuario);
+    }
+
+    if (args.funcao === 'createAtividade') {
+        console.log('create at');
+        createAtividadesUsuario(args.usuario, args.titulo, args.descricao, args.data_inicio);
     }
 });
