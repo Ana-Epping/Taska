@@ -3,50 +3,74 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interaction from "@fullcalendar/interaction";
 import { useNavigate } from 'react-router-dom';
-import ModalAtividade from './ModalAtividade';
+import ModalAtividade from './modal/modalAtividade/ModalAtividade';
+import ModalRotulo from './modal/modalRotulo/ModalRotulo';
 
 
 const Home = () => {
 
+    const idUsuario = localStorage.getItem("idUsuario");
   const navigate = useNavigate();
   useEffect(() => {
-    const idUsuario = localStorage.getItem("idUsuario");
     console.log('idUsuario', idUsuario);
     if (!idUsuario || idUsuario == null) {
       navigate('./login');
     }
   });
 
-  const [dropdown, setDropdown] = useState("");
+  const [dropdownAtividade, setDropdownAtividade] = useState("");
+  const [dropdownRotulo, setDropdownRotulo] = useState("");
   const [date, setData] = useState("");
   const modalRef = useRef(null);
 
-  const toggleDropdown = (date) => {
-    console.log("show", document.getElementById('button-close-modal'),document.body);
-    //se clicar no botão, modal aparece
-    setDropdown("show");
+  const toggleDropdownRotulo = () => {
+
+    setDropdownRotulo("show");
     setData(date);
 
-    document.getElementById('button-close-modal').addEventListener("click", closeDropdown);
+    document.getElementById('button-close-modal-rotulo').addEventListener("click", closeDropdownRotulo);
+
   }
 
-  const closeDropdown = event => {
-    console.log(event);
+  const closeDropdownRotulo = (event) => {
+    //console.log(event);
     event.stopPropagation(); //impede de executar listeners dos filhos
     // const contain = modalRef.current.contains(event.target);
     // console.log(contain);
     // if (!contain) { //se clicar fora do modal, ele DESaparece
     //   console.log("hidden");
-      setDropdown("");
-      setData('');
-      document.getElementById('button-close-modal').removeEventListener("click", closeDropdown);
+    setDropdownRotulo("");
+    setData('');
+    document.getElementById('button-close-modal-rotulo').removeEventListener("click", closeDropdownRotulo);
+    // }
+  };
+
+  const toggleDropdownAtividade = (date) => {
+    console.log("show", document.getElementById('button-close-modal'), document.body);
+    //se clicar no botão, modal aparece
+    setDropdownAtividade("show");
+    setData(date);
+
+    document.getElementById('button-close-modal').addEventListener("click", closeDropdownAtividade);
+  }
+
+  const closeDropdownAtividade = (event) => {
+    //console.log(event);
+    event.stopPropagation(); //impede de executar listeners dos filhos
+    // const contain = modalRef.current.contains(event.target);
+    // console.log(contain);
+    // if (!contain) { //se clicar fora do modal, ele DESaparece
+    //   console.log("hidden");
+    setDropdownAtividade("");
+    setData('');
+    document.getElementById('button-close-modal').removeEventListener("click", closeDropdownAtividade);
     // }
   };
 
   const getAtividadesUsuario = () => {
     console.log("ENtrou na funca");
 
-    let a = window.api.send("toMain", { funcao: "getAtividades", usuario: '' });
+    let a = window.api.send("toMain", { funcao: "getAtividades", usuario: idUsuario });
     console.log('a ', a);
     window.api.receive("fromMain", (resposta) => {
       console.log('RESP', resposta);
@@ -57,10 +81,6 @@ const Home = () => {
 
   getAtividadesUsuario();
 
-  function createAtividade() {
-
-  }
-
   const executeLogoff = () => {
     localStorage.removeItem("idUsuario");
     navigate('./login');
@@ -68,13 +88,15 @@ const Home = () => {
 
   return (
     <div className='home-calendar'>
-    <ModalAtividade className={dropdown} modalRef={modalRef} date={date} />
+      <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} />
+      <ModalRotulo className={dropdownRotulo} modalRef={modalRef} />
       <button onClick={executeLogoff}>Fazer logoff</button>
+      <button onClick={toggleDropdownRotulo}>Criar rótulo</button>
       <FullCalendar
         plugins={[dayGridPlugin, interaction]}
         weekends={true}
         dateClick={function (info) {
-          toggleDropdown(info.dateStr)
+          toggleDropdownAtividade(info.dateStr)
         }}
         events={[
           { title: 'event 1', date: '2022-05-03' },

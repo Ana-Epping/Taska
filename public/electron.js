@@ -3,7 +3,8 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 const Usuario = require('./db/usuario');
 const Atividade = require('./db/atividade');
-const { createAtividade } = require("./db/atividade");
+const Rotulo = require('./db/rotulo');
+const Situacao = require('./db/situacao');
 
 let mainWindow;
 
@@ -28,7 +29,8 @@ function createWindow() {
 
     Atividade.sync();
     Usuario.sync();
-
+    Rotulo.sync();
+    Situacao.sync();
 }
 
 app.on("ready", createWindow);
@@ -70,9 +72,9 @@ function createUsuario(usuario, senha) {
 
 function getAtividadesUsuario(usuario) {
 
-    console.log('Atividades');
+    console.log('Atividades', usuario);
 
-    Atividade.getAtividades().then((resultado) => {
+    Atividade.getAtividades(usuario).then((resultado) => {
         console.log(resultado);
 
     }).catch((e) => {
@@ -80,10 +82,42 @@ function getAtividadesUsuario(usuario) {
     });
 }
 
-function createAtividadesUsuario(usuario, titulo, descricao, data_inicio) {
+function createAtividadeUsuario(usuario, titulo, descricao, data_inicio, id_situacao, id_rotulo) {
     console.log('Atividades');
-let data = {'titulo': titulo, 'descricao': descricao, 'data_inicio': data_inicio, 'usuario': usuario};
+let data = {'titulo': titulo, 'descricao': descricao, 'data_inicio': data_inicio, 'id_usuario': usuario, 'id_situacao': id_situacao, 'id_rotulo': id_rotulo};
     Atividade.createAtividade(data).then((resultado) => {
+        console.log(resultado);
+
+    }).catch((e) => {
+        console.log(e);
+    });
+}
+
+function getRotuloUsuario(usuario) {
+
+    console.log('rotulos', usuario);
+
+    Rotulo.getRotuloUsuario(usuario).then((resultado) => {
+        console.log(resultado);
+
+    }).catch((e) => {
+        console.log(e);
+    });
+}
+
+function createRotuloUsuario(usuario, descricao, icon, color) {
+    console.log('rotulo', {'descricao': descricao, 'icon': icon, 'color':color, 'id_usuario': usuario});
+let data = {'descricao': descricao, 'icon': icon, 'color':color, 'id_usuario': usuario};
+    Rotulo.createRotulo(data).then((resultado) => {
+        console.log(resultado);
+
+    }).catch((e) => {
+        console.log(e);
+    });
+}
+function getSituacoes(){
+    console.log('get situacao');
+    Situacao.getSituacoes().then((resultado) => {
         console.log(resultado);
 
     }).catch((e) => {
@@ -118,6 +152,23 @@ ipcMain.on("toMain", (event, args) => {
 
     if (args.funcao === 'createAtividade') {
         console.log('create at');
-        createAtividadesUsuario(args.usuario, args.titulo, args.descricao, args.data_inicio);
+        createAtividadeUsuario(args.usuario, args.titulo, args.descricao, args.data_inicio, args.id_situacao, args.id_rotulo);
+    }
+
+    // ROTULO
+    if (args.funcao === "getRotulos") {
+        console.log('at');
+        getRotuloUsuario(args.usuario);
+    }
+
+    if (args.funcao === 'createRotulo') {
+        console.log('create at');
+        createRotuloUsuario(args.usuario, args.descricao, args.icon, args.color);
+    }
+
+    // SITUACAO
+    if (args.funcao === "getSituacoes") {
+        console.log('at');
+        getSituacoes();
     }
 });

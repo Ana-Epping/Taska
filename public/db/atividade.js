@@ -27,14 +27,18 @@ const Atividade = database.define('atividade', {
     id_usuario: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    id_rotulo: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    id_situacao: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 }, {
     tableName: 'atividade'
 });
-    
-// Atividade.belongsTo(Rotulo, { foreignKey: "id_rotulo", targetKey: "id" });
-// Atividade.belongsTo(Situacao, { foreignKey: "id_situacao", targetKey: "id" });
-// Atividade.belongsTo(Usuario, { foreignKey: "id_usuario", targetKey: "id" });
 
 // Atividade.getAtividades = (idUsuario) => {
 //     return Atividade.find({ where: { id_usuario: idUsuario }}).then((atividades) => {
@@ -44,9 +48,9 @@ const Atividade = database.define('atividade', {
 //             return {success: false};
 //     });
 // }
-Atividade.getAtividades = async () => {
+Atividade.getAtividades = async (usuario) => {
     console.log('atividade');
-    let resultado = await Atividade.findAll();
+    let resultado = await Atividade.findAll({ where: { id_usuario: usuario}});
 
     return resultado;
 }
@@ -62,14 +66,7 @@ Atividade.getAtividade = (idUsuario, idAtividade) => {
 
 Atividade.createAtividade = async (atividade) => {
 
-    return await Atividade.create({
-        titulo: atividade['titulo'],
-        descricao: atividade['descricao'],
-        data_inicio: atividade['data_inicio'],
-        data_fim: atividade['data_fim'] || null,
-        // id_rotulo: atividade['id_rotulo'],
-        // id_situacao: atividade['id_situacao'],
-        id_usuario: atividade['usuario']
-    });
+    return await Atividade.create(atividade);
 };
+
 module.exports = Atividade;

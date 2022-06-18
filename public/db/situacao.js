@@ -12,22 +12,16 @@ const Situacao = database.define('situacao', {
         type: Sequelize.STRING,
         allowNull: false
     }
+}, {
+    tableName: 'situacao'
 });
 
-Situacao.getSituacoes = () => {
-    return Situacao.find().then((situacoes) => {
-        if (situacoes)
-            return {success: true, result: situacoes};
-        else
-            return {success: false};
-    });
+Situacao.getSituacoes = async () => {
+    return await Situacao.findAll();
 }
 
-Situacao.getSituacao = (idSituacao) => {
-    return Situacao.findOne({ where: { id: idSituacao } }).then((situacao) => {
-        if (situacao)
-            return {success: true, result: situacao};
-        else
-            return {success: false};
-    });
+Situacao.getSituacao = async (idSituacao) => {
+    return await Situacao.findOne({ where: { id: idSituacao } });
 }
+
+module.exports = Situacao;

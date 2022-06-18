@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const database = require('./db');
-const Usuario = require('./usuario');
 
 const Rotulo = database.define('rotulo', {
     id: {
@@ -20,24 +19,21 @@ const Rotulo = database.define('rotulo', {
     color: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    id_usuario: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
+}, {
+    tableName: 'rotulo'
 });
-Rotulo.belongsTo(Usuario, { foreignKey: "id_usuario", targetKey: "id" });
 
-Rotulo.getRotulos = (idUsuario) => {
-    return Rotulo.find({ where: { id_usuario: idUsuario }}).then((rotulos) => {
-        if (rotulos)
-            return {success: true, result: rotulos};
-        else
-            return {success: false};
-    });
+Rotulo.createRotulo = async (rotulo) => {
+    return await Rotulo.create(rotulo);
+};
+
+Rotulo.getRotuloUsuario = async (usuario) => {
+    return await Rotulo.findOne({ where: { id_usuario: usuario } });
 }
 
-Rotulo.getRotulo = (idRotulo, idUsuario) => {
-    return Rotulo.findOne({ where: { id: idRotulo, id_usuario: idUsuario } }).then((rotulo) => {
-        if (rotulo)
-            return {success: true, result: rotulo};
-        else
-            return {success: false};
-    });
-}
+module.exports = Rotulo;

@@ -1,6 +1,6 @@
 
 import React from "react";
-import "./Modal.css";
+import "./../Modal.css";
 import FormAtividade from './FormAtividade';
 
 
