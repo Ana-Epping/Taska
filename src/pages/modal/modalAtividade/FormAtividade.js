@@ -93,6 +93,7 @@ const salvarIdRotulo = (value) => {
 
   return (
     <div className='atividade'>
+      <h2>Criar nova atividade</h2>
       <Form>
         <Form.Item name="titulo"
           value={titulo}

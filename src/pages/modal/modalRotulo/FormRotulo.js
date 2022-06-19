@@ -51,6 +51,7 @@ const FormRotulo = props => {
 
     return (
         <div className='atividade'>
+            <h2>Criar novo rótulo</h2>
             <Form>
                 <Form.Item name="descricao"
                     value={descricao}

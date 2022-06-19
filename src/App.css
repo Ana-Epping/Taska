@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
 
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
@@ -20,7 +21,6 @@
   padding: 0 24px;
   font-size: 18px;
   line-height: 64px;
-  cursor: pointer;
   transition: color 0.3s;
 }
 
@@ -38,6 +38,14 @@
   background: #fff;
 }
 
+body {
+  min-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 h1 {
   font-size: 50px;
   font-style: italic;
@@ -49,64 +57,94 @@ h1 {
   margin: 0 auto;
 }
 
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar {
+  padding: 0 10px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #FFF;
+  flex-direction: row;
+  align-items: stretch;
+  align-content: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
 }
 
-.App-link {
-  color: #61dafb;
+.navbar p {
+  font-family: 'Monoton', cursive;
+  font-size: 55px;
+  color: #fff;
 }
 
-.exit-button {
-  padding: 2px 10px;
+.exit-button,
+#button-close-modal,
+#button-close-modal-rotulo {
+  margin: 0;
+  line-height: 40px;
+  box-sizing: content-box;
+  width: 70px;
+  height: auto;
   background-color: #ff3535;
   color: #FFF;
   border: 1px solid transparent;
   border-radius: 4px;
   text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
   box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  cursor: pointer;
 }
 
 .exit-button:hover {
-  background-color: #f94949;
   color: #FFF;
   border: none;
 }
 
-.ant-btn-loading-icon {
-  visibility: hidden;
+#button-close-modal,
+#button-close-modal-rotulo {
+  line-height: 25px;
+  width: 30px;
+  float: right;
+  padding-top: 0;
 }
 
-.navbar {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 100%;
-  top: 0;
-  left: 0;
+#p-login {
+  color: #1890ff;
+  cursor: pointer;
 }
 
 .home-calendar {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: auto;
+  margin: 20px 60px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+.menu button {
+  margin: auto 30px;
+  padding: 5px;
+}
+
+button {
+  background-color: #f1f1f1;
+  border-style: hidden;
+  border-radius: 3px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+}
+
+.modal-content {
+  height: auto !important;
+  width: 60% !important;
+  padding: 30px;
+}
+
+.modal-content h2 {
+  font-size: xx-large;
+  text-align: center;
 }
 
 ::-webkit-scrollbar {
@@ -123,20 +161,4 @@ h1 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
 }

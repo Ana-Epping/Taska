@@ -27,7 +27,7 @@ const Usuario = () => {
   const criaUsuario = () => {
     window.api.send("toMain", { funcao: "createUsuario", usuario: usuario, senha: senha });
     window.api.receive("fromMain", (resposta) => {
-        console.log('usuario response',resposta);
+      console.log('usuario response', resposta);
       if (resposta) {
         setSuccess(true);
         setError(false);
@@ -63,7 +63,6 @@ const Usuario = () => {
 
   return (
     <div className='login'>
-      <p onClick={navigateLogin}>Voltar para o Login</p>
       <h1>Cadastre-se</h1>
       <br />
       <Form
@@ -114,6 +113,7 @@ const Usuario = () => {
           <Button type="primary" htmlType="submit" className="login-form-button" onClick={criaUsuario}>
             Cadastrar
           </Button>
+          <p id='p-login' onClick={navigateLogin}>voltar para o Login</p>
         </Form.Item>
       </Form>
     </div>
