@@ -8,7 +8,12 @@ import { Footer, Header } from 'antd/lib/layout/layout';
 function App() {
 
   function quit() {
-    window.api.send("toMain", { funcao: "quit" });
+    let res = window.confirm("Tem certeza que deseja sair?");
+    if(res){
+      window.api.send("toMain", { funcao: "quit" });
+    } else {
+      return;
+    }
   }
 
   return (
