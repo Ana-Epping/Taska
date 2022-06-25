@@ -146,10 +146,6 @@ ipcMain.on("toMain", (event, args) => {
         createUsuario(args.usuario, args.senha);
     }
 
-    if (args.funcao === "Home") {
-        //win.loadURL(`/pages/Home.js`)
-    }
-
     // ATIVIDADE
     if (args.funcao === "getAtividades") {
         getAtividadesUsuario(args.usuario);

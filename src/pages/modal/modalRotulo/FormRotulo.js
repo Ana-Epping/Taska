@@ -1,11 +1,12 @@
-import { Form, Input, Button, Alert, Col, Row, Select} from 'antd';
-import {  PhoneOutlined, MailOutlined, MessageOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Alert, Col, Row, Select } from 'antd';
+import { PhoneOutlined, MailOutlined, MessageOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 
 const FormRotulo = props => {
+    const { closeDropdownRotulo } = props;
     const { Option } = Select;
     const [descricao, setDescricao] = useState();
-    const [color, setColor] = useState();
+    const [color, setColor] = useState("#000000");
     const [icon, setIcon] = useState();
     const [error, setError] = useState();
     const [success, setSuccess] = useState();
@@ -25,6 +26,7 @@ const FormRotulo = props => {
                 setError(true);
             }
         });
+        closeDropdownRotulo();
     };
 
     const errorAlert = error ? <Row>
@@ -52,7 +54,7 @@ const FormRotulo = props => {
     return (
         <div className='atividade'>
             <h2>Criar novo rótulo</h2>
-            <Form>
+            <Form onFinish={criarRotulo}>
                 <Form.Item name="descricao"
                     value={descricao}
                     onChange={salvarDescricao}
@@ -112,7 +114,7 @@ const FormRotulo = props => {
                 {errorAlert}
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button" onClick={criarRotulo}>
+                    <Button id='rotulo-form-button' type="primary" htmlType="submit" className="login-form-button">
                         Cadastrar
                     </Button>
                 </Form.Item>
