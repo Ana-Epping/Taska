@@ -7,7 +7,7 @@ import ModalAtividade from './modal/modalAtividade/ModalAtividade';
 import ModalRotulo from './modal/modalRotulo/ModalRotulo';
 import { MailOutlined, SettingOutlined } from '@ant-design/icons';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Menu, Modal } from 'antd';
+import { Menu } from 'antd';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -45,11 +45,13 @@ const Home = () => {
     if (!idUsuario || idUsuario == null) {
       navigate('./login');
     }
-  });
+    getAtividadesUsuario();
+  }, []);
 
   const [dropdownAtividade, setDropdownAtividade] = useState("");
   const [dropdownRotulo, setDropdownRotulo] = useState("");
   const [date, setData] = useState("");
+  const [atividades, setAtividades] = useState([]);
   const modalRef = useRef(null);
 
   const toggleDropdownRotulo = () => {
@@ -96,19 +98,21 @@ const Home = () => {
     // }
   };
 
+  const salvarAtividades = (values) => {
+    setAtividades(values);
+  }
+
   const getAtividadesUsuario = () => {
     console.log("ENtrou na funca");
 
-    let a = window.api.send("toMain", { funcao: "getAtividades", usuario: idUsuario });
-    console.log('a ', a);
+    window.api.send("toMain", { funcao: "getAtividades", usuario: idUsuario });
     window.api.receive("fromMain", (resposta) => {
       console.log('RESP', resposta);
       if (resposta) {
+        salvarAtividades(resposta);
       }
     });
   };
-
-  getAtividadesUsuario();
 
   const executeLogoff = () => {
     localStorage.removeItem("idUsuario");
@@ -159,10 +163,7 @@ const Home = () => {
           dateClick={function (info) {
             toggleDropdownAtividade(info.dateStr)
           }}
-          events={[
-            { title: 'event 1', date: '2022-05-03' },
-            { title: 'event 2', date: '2022-05-02' }
-          ]} /></div>
+          events={atividades} /></div>
     </div>
   )
 }

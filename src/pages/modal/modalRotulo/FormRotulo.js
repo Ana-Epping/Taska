@@ -15,7 +15,7 @@ const FormRotulo = props => {
         let idUsuario = localStorage.getItem("idUsuario");
         window.api.send("toMain", { funcao: "createRotulo", 'descricao': descricao, 'color': color, 'icon': icon, 'usuario': idUsuario });
         window.api.receive("fromMain", (resposta) => {
-            console.log('usuario response', resposta);
+            console.log('create rotulo response', resposta);
             if (resposta) {
                 setSuccess(true);
                 setError(false);

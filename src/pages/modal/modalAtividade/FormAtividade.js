@@ -1,5 +1,5 @@
 import { Form, Input, Button, Alert, Col, Row, Select } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const FormAtividade = props => {
   const { date } = props;
@@ -8,12 +8,17 @@ const FormAtividade = props => {
   const [descricao, setDescricao] = useState();
   const [id_situacao, setIdSituacao] = useState();
   const [id_rotulo, setIdRotulo] = useState();
-  const rotulo = [];
-  const situacao = [];
+  const [rotulo, setRotulo] = useState([]);
+  const [situacao, setSituacao] = useState([]);
 
 
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
+
+  useEffect(() => {
+    buscaRotulo();
+    buscaSituacoes();
+  },[]);
 
 
   const buscaRotulo = () => {
@@ -22,11 +27,10 @@ const FormAtividade = props => {
     let idUsuario = localStorage.getItem("idUsuario");
 
     window.api.send("toMain", { funcao: "getRotulos", usuario: idUsuario});
-    window.api.receive("fromMain", (resposta) => {
+    window.api.receive("fromMainRotulo", (resposta) => {
       console.log('rotulo response', resposta);
       if (resposta) {
-        // this.rotulo = resposta;
-
+        salvarRotulo(resposta);
       }
     });
   }
@@ -34,17 +38,14 @@ const FormAtividade = props => {
   const buscaSituacoes = () => {
 console.log('Entrou FUNCAO SITUACAO');
     window.api.send("toMain", { funcao: "getSituacoes"});
-    window.api.receive("fromMain", (resposta) => {
+    window.api.receive("fromMainSituacao", (resposta) => {
       console.log('situacao response', resposta);
       if (resposta) {
-        // this.rotulo = resposta;
+        salvarSituacao(resposta);
 
       }
     });
   }
-  
-  buscaRotulo();
-  buscaSituacoes();
 
   const criaAtividade = () => {
 console.log('criar atividae');
@@ -78,6 +79,14 @@ console.log('criar atividae');
     setDescricao(e.target.value);
   };
 
+
+  const salvarSituacao = (value) => {
+    setSituacao(value);
+  }
+
+  const salvarRotulo= (value) => {
+    setRotulo(value);
+  }
 
   const salvarIdSituacao = (value) => {
     console.log('cor ', value);

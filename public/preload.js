@@ -20,6 +20,18 @@ contextBridge.exposeInMainWorld(
                 // Deliberately strip event as it includes `sender` 
                 ipcRenderer.on(channel, (event, ...args) => func(...args));
             }
+
+            let validChannelsSituacao = ["fromMainSituacao"];
+            if (validChannelsSituacao.includes(channel)) {
+                // Deliberately strip event as it includes `sender` 
+                ipcRenderer.on(channel, (event, ...args) => func(...args));
+            }
+
+            let validChannelsRotulo = ["fromMainRotulo"];
+            if (validChannelsRotulo.includes(channel)) {
+                // Deliberately strip event as it includes `sender` 
+                ipcRenderer.on(channel, (event, ...args) => func(...args));
+            }
         }
     }
 );

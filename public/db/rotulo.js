@@ -33,7 +33,7 @@ Rotulo.createRotulo = async (rotulo) => {
 };
 
 Rotulo.getRotuloUsuario = async (usuario) => {
-    return await Rotulo.findOne({ where: { id_usuario: usuario } });
+    return await Rotulo.findAll({ where: { id_usuario: usuario } });
 }
 
 module.exports = Rotulo;

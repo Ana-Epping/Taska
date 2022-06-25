@@ -16,6 +16,13 @@ const Situacao = database.define('situacao', {
     tableName: 'situacao'
 });
 
+Situacao.sync({ force: true }).then(() => {
+    Situacao.create({id: 1, descricao: 'Em aberto'});
+    Situacao.create({id: 2, descricao: 'Em andamento'});
+    Situacao.create({id: 3, descricao: 'Finalizada'});
+    Situacao.create({id: 4, descricao: 'Cancelada'});
+});
+
 Situacao.getSituacoes = async () => {
     return await Situacao.findAll();
 }
