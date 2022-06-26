@@ -32,6 +32,12 @@ contextBridge.exposeInMainWorld(
                 // Deliberately strip event as it includes `sender` 
                 ipcRenderer.on(channel, (event, ...args) => func(...args));
             }
+
+            let validChannelsAtividadeDetalhes = ["fromMainAtividadeDetalhes"];
+            if (validChannelsAtividadeDetalhes.includes(channel)) {
+                // Deliberately strip event as it includes `sender` 
+                ipcRenderer.on(channel, (event, ...args) => func(...args));
+            }
         }
     }
 );

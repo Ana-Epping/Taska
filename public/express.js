@@ -15,7 +15,6 @@ app.get('/', (req, res) => {
 // login page route
 app.get('/login', (req, res) => {
     res.json(true);
-    console.log(req);
 });
 
 // set port, listen for requests

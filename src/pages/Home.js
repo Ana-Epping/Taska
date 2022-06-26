@@ -5,14 +5,14 @@ import interaction from "@fullcalendar/interaction";
 import { useNavigate } from 'react-router-dom';
 import ModalAtividade from './modal/modalAtividade/ModalAtividade';
 import ModalRotulo from './modal/modalRotulo/ModalRotulo';
-import { MailOutlined, SettingOutlined } from '@ant-design/icons';
+import ModalAtividadeDetalhes from './modal/modalAtividadeDetalhes/ModalAtividadeDetalhes';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
 const Home = () => {
 
   const idUsuario = localStorage.getItem("idUsuario");
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     console.log('idUsuario', idUsuario);
     if (!idUsuario || idUsuario == null) {
@@ -23,7 +23,9 @@ const Home = () => {
 
   const [dropdownAtividade, setDropdownAtividade] = useState("");
   const [dropdownRotulo, setDropdownRotulo] = useState("");
+  const [dropdownAtividadeDetalhes, setDropdownAtividadeDetatalhes] = useState("");
   const [date, setData] = useState("");
+  const [idAtividade, setIdAtividade] = useState("");
   const [atividades, setAtividades] = useState([]);
   const modalRef = useRef(null);
 
@@ -45,13 +47,12 @@ const Home = () => {
   };
 
   const toggleDropdownAtividade = (date) => {
-    console.log("show", document.getElementById('button-close-modal'), document.body);
-    //se clicar no botão, modal aparece
     setDropdownAtividade("show");
     setData(date);
   }
 
   const closeDropdownAtividade = (event) => {
+    console.log('close at');
     //console.log(event);
     event && event.stopPropagation(); //impede de executar listeners dos filhos
     // const contain = modalRef.current.contains(event.target);
@@ -64,7 +65,25 @@ const Home = () => {
     // }
   };
 
+  const toggleDropdownAtividadeDetalhes = (idAtividade) => {
+    setDropdownAtividadeDetatalhes("show");
+    setIdAtividade(idAtividade);
+  }
+
+  const closeDropdownAtividadeDetalhes = (event) => {
+    console.log('close detalhes');
+    event && event.stopPropagation(); //impede de executar listeners dos filhos
+    // const contain = modalRef.current.contains(event.target);
+    // console.log(contain);
+    // if (!contain) { //se clicar fora do modal, ele DESaparece
+    //   console.log("hidden");
+    setDropdownAtividadeDetatalhes("");
+    setIdAtividade('');
+    // }
+  };
+
   const salvarAtividades = (values) => {
+    console.log('ser arividade', values);
     setAtividades(values);
   }
 
@@ -103,11 +122,16 @@ const Home = () => {
 
   return (
     <div>
-      {dropdownAtividade && <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} closeDropdownAtividade={closeDropdownAtividade}/>}
+      {dropdownAtividade && <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} closeDropdownAtividade={closeDropdownAtividade} />}
       {dropdownRotulo && <ModalRotulo className={dropdownRotulo} modalRef={modalRef} closeDropdownRotulo={closeDropdownRotulo} />}
-      <div className='menu'>/
-      <button onClick={executeLogoff}>Fazer logoff</button>
-      <button onClick={toggleDropdownRotulo}>Criar rótulo</button>
+      {dropdownAtividadeDetalhes && <ModalAtividadeDetalhes className={dropdownAtividadeDetalhes} modalRef={modalRef} idAtividade={idAtividade} closeDropdownAtividadeDetalhes={closeDropdownAtividadeDetalhes}  />}
+
+      <div className='menu'>
+        {/* <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} />
+      <ModalRotulo className={dropdownRotulo} modalRef={modalRef} /> */}
+        {/* <div className='menu'> */}
+        <button onClick={executeLogoff}>Fazer logoff</button>
+        <button onClick={toggleDropdownRotulo}>Criar rótulo</button>
       </div>
       <div className='home-calendar'>
         <FullCalendar
@@ -124,11 +148,17 @@ const Home = () => {
           dateClick={function (info) {
             toggleDropdownAtividade(info.dateStr)
           }}
-          eventDrop={ ({ event }) => {
+          eventDrop={({ event }) => {
             updateAtividade(event);
           }}
-          events={atividades} /></div>
-          
+          eventClick={function (info) {
+            console.log('ID ATIVIDADE', info.event.id);
+            toggleDropdownAtividadeDetalhes(info.event.id);
+          }
+          }
+          events={atividades} />
+      </div>
+
     </div>
   )
 }

@@ -50,7 +50,9 @@ const FormAtividade = props => {
   const criaAtividade = () => {
     console.log('criar atividade');
     let idUsuario = localStorage.getItem("idUsuario");
-    window.api.send("toMain", { funcao: "createAtividade", titulo: titulo, descricao: descricao, data_inicio: date, usuario: idUsuario, 'id_situacao': id_situacao, 'id_rotulo': id_rotulo });
+
+    console.log('situaccao / rotulo ',id_situacao, id_rotulo);
+    window.api.send("toMain", { funcao: "createAtividade", titulo: titulo, descricao: descricao, data_inicio: date, usuario: idUsuario, id_situacao: id_situacao, id_rotulo: id_rotulo });
     // window.api.receive("fromMain", (resposta) => { // NÃO ESTÁ SENDO USADO NO MOMENTO
     //   console.log('usuario response', resposta);
     //   if (resposta) {
@@ -149,8 +151,8 @@ const FormAtividade = props => {
               width: 120,
             }}
             onChange={salvarIdSituacao}>
-            {situacao.map((s, index) =>
-              <Option key={index} value={s.value}>{s.descricao}</Option>
+            {situacao.map((s) =>
+              <Option key={s.id} value={s.id}>{s.descricao}</Option>
             )
             }
           </Select>
@@ -173,8 +175,8 @@ const FormAtividade = props => {
               width: 120,
             }}
             onChange={salvarIdRotulo}>
-            {rotulo.map((r, index) =>
-              <Option key={index} value={r.value}>{r.descricao}</Option>
+            {rotulo.map((r) =>
+              <Option key={r.id} value={r.id}>{r.descricao}</Option>
             )
             }
           </Select>

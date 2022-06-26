@@ -76,7 +76,8 @@ h1 {
 
 .exit-button,
 #button-close-modal,
-#button-close-modal-rotulo {
+#button-close-modal-rotulo,
+#button-close-modal-detalhes {
   margin: 0;
   line-height: 40px;
   box-sizing: content-box;
@@ -96,7 +97,8 @@ h1 {
 }
 
 #button-close-modal,
-#button-close-modal-rotulo {
+#button-close-modal-rotulo,
+#button-close-modal-detalhes {
   line-height: 25px;
   width: 30px;
   float: right;
@@ -142,7 +144,7 @@ footer {
   padding: 30px;
 }
 
-.modal-content h2 {
+.modal-content h2, .modal-content-detalhes h2 {
   font-size: xx-large;
   text-align: center;
 }

@@ -70,11 +70,36 @@ function getAtividadesUsuario(usuario) {
         if (resultado && resultado.length > 0) {
             let retorno = resultado.map((r) => {
                 let data = r['dataValues'];
-                return { id: data['id'], title: data['titulo'], date: data['data_inicio'], end: data['data_fim'] }
+
+
+
+                return { id: data['id'], title: data['titulo'], date: data['data_inicio'], end: data['data_fim'], backgroundColor: '#fff' }
             });
             mainWindow.webContents.send("fromMain", retorno)
         } else {
             mainWindow.webContents.send("fromMain", false);
+        }
+    }).catch((e) => {
+        console.log(e);
+    });
+}
+
+async function getAtividadeUsuario(usuario, idAtividade) {
+
+    Atividade.getAtividade(usuario, idAtividade).then((resultado) => {
+        console.log('res   id at ', resultado);
+        if (resultado && resultado['dataValues']) {
+            let data = resultado['dataValues'];
+            getRotuloIdUsuario(usuario, data['id_rotulo']).then((resultR) => {
+                data['rotulo'] = resultR;
+                getSituacao(data['id_situacao']).then((resultS) => {
+                    data['situacao'] = resultS;
+                    mainWindow.webContents.send("fromMainAtividadeDetalhes", data);
+                });
+            });
+
+        } else {
+            mainWindow.webContents.send("fromMainAtividadeDetalhes", false);
         }
     }).catch((e) => {
         console.log(e);
@@ -105,6 +130,22 @@ function getRotuloUsuario(usuario) {
         console.log(e);
     });
 }
+function getRotuloIdUsuario(usuario, idRotulo) {
+    console.log(usuario);
+    return new Promise(resolve => {
+        Rotulo.getRotuloIdUsuario(usuario, idRotulo).then((resultado) => {
+            console.log('rotulo id  ', resultado);
+            if (resultado && resultado['dataValues']) {
+                resolve(resultado['dataValues']);
+            } else {
+                resolve(false);
+            }
+
+        }).catch((e) => {
+            console.log(e);
+        });
+    })
+}
 
 function createRotuloUsuario(usuario, descricao, icon, color) {
     let data = { 'descricao': descricao, 'icon': icon, 'color': color, 'id_usuario': usuario };
@@ -132,6 +173,21 @@ function getSituacoes() {
     });
 }
 
+function getSituacao(idSituacao) {
+    return new Promise(resolve => {
+        Situacao.getSituacao(idSituacao).then((resultado) => {
+            console.log('rotulo id  ', resultado);
+            if (resultado && resultado['dataValues']) {
+                resolve(resultado['dataValues']);
+            } else {
+                resolve(false);
+            }
+        }).catch((e) => {
+            console.log(e);
+        });
+    });
+}
+
 ipcMain.on("toMain", (event, args) => {
     console.log('ARGS', args);
     if (args.funcao === "quit") {
@@ -149,6 +205,10 @@ ipcMain.on("toMain", (event, args) => {
     // ATIVIDADE
     if (args.funcao === "getAtividades") {
         getAtividadesUsuario(args.usuario);
+    }
+
+    if (args.funcao === "getAtividade") {
+        getAtividadeUsuario(args.usuario, args.idAtividade);
     }
 
     if (args.funcao === 'createAtividade') {

@@ -49,19 +49,15 @@ const Atividade = database.define('atividade', {
 //     });
 // }
 Atividade.getAtividades = async (usuario) => {
-    console.log('atividade');
     let resultado = await Atividade.findAll({ where: { id_usuario: usuario}});
 
     return resultado;
 }
 
-Atividade.getAtividade = (idUsuario, idAtividade) => {
-    return Atividade.findOne({ where: { id: idAtividade, id_usuario: idUsuario } }).then((atividade) => {
-        if (atividade)
-            return {success: true, result: atividade};
-        else
-            return {success: false};
-    });
+Atividade.getAtividade = async (idUsuario, idAtividade) => {
+    let  resultado = Atividade.findOne({ where: { id: idAtividade, id_usuario: idUsuario } });
+
+    return resultado;
 }
 
 Atividade.createAtividade = async (atividade) => {
