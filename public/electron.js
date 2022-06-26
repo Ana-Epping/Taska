@@ -115,6 +115,17 @@ function createAtividadeUsuario(usuario, titulo, descricao, data_inicio, id_situ
     });
 }
 
+function deleteAtividadeUsuario(usuario, idAtividade){
+        
+    let data = { id_usuario: usuario, id: idAtividade };
+    Atividade.deleteAtividade(data).then((resultado) => {
+        
+        mainWindow.webContents.send("fromMainDeleteAtividade", resultado)
+    }).catch((e) => {
+        console.log('erro delete ',e);
+    });
+}
+
 function getRotuloUsuario(usuario) {
     console.log(usuario);
     Rotulo.getRotuloUsuario(usuario).then((resultado) => {
@@ -213,6 +224,10 @@ ipcMain.on("toMain", (event, args) => {
 
     if (args.funcao === 'createAtividade') {
         createAtividadeUsuario(args.usuario, args.titulo, args.descricao, args.data_inicio, args.id_situacao, args.id_rotulo);
+    }
+
+    if(args.funcao === 'deleteAtividade'){
+        deleteAtividadeUsuario(args.usuario, args.idAtividade);
     }
 
     // ROTULO

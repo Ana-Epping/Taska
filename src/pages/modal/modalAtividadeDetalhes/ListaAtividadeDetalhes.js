@@ -12,6 +12,7 @@ const ListaAtividadeDetalhes = props => {
   const buscaAtividade = () => {
 
     let idUsuario = localStorage.getItem("idUsuario");
+    console.log(idUsuario, idAtividade);
     window.api.send("toMain", { funcao: "getAtividade", usuario: idUsuario, idAtividade: idAtividade });
     window.api.receive("fromMainAtividadeDetalhes", (resposta) => {
       if (resposta) {

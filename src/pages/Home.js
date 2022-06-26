@@ -15,8 +15,9 @@ const Home = () => {
 
   useEffect(() => {
     console.log('idUsuario', idUsuario);
-    if (!idUsuario || idUsuario == null) {
-      navigate('./login');
+    if (!idUsuario || idUsuario == 'null' || idUsuario == 'undefined') {
+      console.log('resirect ');
+      navigate('login');
     }
     getAtividadesUsuario();
   }, []);
@@ -66,6 +67,7 @@ const Home = () => {
   };
 
   const toggleDropdownAtividadeDetalhes = (idAtividade) => {
+    console.log('at id ', idAtividade);
     setDropdownAtividadeDetatalhes("show");
     setIdAtividade(idAtividade);
   }
@@ -79,6 +81,7 @@ const Home = () => {
     //   console.log("hidden");
     setDropdownAtividadeDetatalhes("");
     setIdAtividade('');
+    getAtividadesUsuario();
     // }
   };
 

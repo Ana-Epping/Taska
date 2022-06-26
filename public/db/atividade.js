@@ -65,4 +65,11 @@ Atividade.createAtividade = async (atividade) => {
     return await Atividade.create(atividade);
 };
 
+Atividade.deleteAtividade = async (atividade) => {
+
+    return await Atividade.destroy({
+        where: atividade,
+      });
+}
+
 module.exports = Atividade;

@@ -27,13 +27,13 @@ const Login = () => {
   const processaLogin = () => {
     window.api.send("toMain", { funcao: "login", usuario: usuario, senha: senha });
     window.api.receive("fromMain", (resposta) => {
-      if (resposta) {
+      if (resposta && resposta['id']) {
+        localStorage.setItem("idUsuario", resposta['id']);
+
         setSuccess(true);
         setError(false);
 
-        localStorage.setItem("idUsuario", resposta['id']);
         navigate('/');
-
 
       } else {
         setSuccess(false);
