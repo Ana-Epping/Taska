@@ -2,6 +2,7 @@ import { Form, Input, Button, Checkbox, Alert, Col, Row } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import loginImg from '../images/login.png';
 
 const Login = () => {
   const [usuario, setUsuario] = useState();
@@ -64,59 +65,64 @@ const Login = () => {
   }
 
   const cadastro = {
-    color: '#1c8efa', 
+    color: '#71a2cf',
     cursor: 'pointer'
   };
 
   return (
     <div className='login'>
-      <h1>Login</h1>
-      <br />
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          name="username"
-          value={usuario}
-          onChange={salvaUsuario}
-          rules={[
-            {
-              required: true,
-              message: 'Por favor, insira seu username!',
-            },
-          ]}
-        >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          value={senha}
-          onChange={salvaSenha}
-          rules={[
-            {
-              required: true,
-              message: 'Por favor, insira sua senha!',
-            },
-          ]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Senha"
-          />
-        </Form.Item>
+      <div className='image-wrapper'>
+        <img alt='' src={loginImg} ></img>
+      </div>
+      <div className='login-wrapper'>
 
-        {errorAlert}
-        {login}
+        <h1>Login</h1>
+        <br />
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="username"
+            value={usuario}
+            onChange={salvaUsuario}
+            rules={[
+              {
+                required: true,
+                message: 'Por favor, insira seu username!',
+              },
+            ]}
+          >
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            value={senha}
+            onChange={salvaSenha}
+            rules={[
+              {
+                required: true,
+                message: 'Por favor, insira sua senha!',
+              },
+            ]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Senha"
+            />
+          </Form.Item>
 
-        {/* <Form.Item>
+          {errorAlert}
+          {login}
+
+          {/* <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Lembrar-se</Checkbox>
           </Form.Item>
@@ -126,13 +132,14 @@ const Login = () => {
           </a>
         </Form.Item> */}
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" onClick={processaLogin}>
-            Entrar
-          </Button>
-          <div onClick={abrirCadastro} style={cadastro}>cadastre-se</div>
-        </Form.Item>
-      </Form>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-form-button" onClick={processaLogin}>
+              Entrar
+            </Button>
+            <div onClick={abrirCadastro} style={cadastro}>cadastre-se</div>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };
