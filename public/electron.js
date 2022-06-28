@@ -73,7 +73,7 @@ function getAtividadesUsuario(usuario) {
 
 
 
-                return { id: data['id'], title: data['titulo'], date: data['data_inicio'], end: data['data_fim'], backgroundColor: '#fff' }
+                return { id: data['id'], title: data['titulo'], date: data['data_inicio'], end: data['data_fim'], backgroundColor: '#f3f9ff', textColor: '#1890ff' }
             });
             mainWindow.webContents.send("fromMain", retorno)
         } else {
@@ -119,7 +119,6 @@ function deleteAtividadeUsuario(usuario, idAtividade){
         
     let data = { id_usuario: usuario, id: idAtividade };
     Atividade.deleteAtividade(data).then((resultado) => {
-        
         mainWindow.webContents.send("fromMainDeleteAtividade", resultado)
     }).catch((e) => {
         console.log('erro delete ',e);

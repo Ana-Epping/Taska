@@ -70,6 +70,7 @@ const Home = () => {
     console.log('at id ', idAtividade);
     setDropdownAtividadeDetatalhes("show");
     setIdAtividade(idAtividade);
+    getAtividadesUsuario();
   }
 
   const closeDropdownAtividadeDetalhes = (event) => {
@@ -81,12 +82,13 @@ const Home = () => {
     //   console.log("hidden");
     setDropdownAtividadeDetatalhes("");
     setIdAtividade('');
+    console.log('passou aqui')
     getAtividadesUsuario();
     // }
   };
 
   const salvarAtividades = (values) => {
-    console.log('ser arividade', values);
+    console.log('salvar atividades', values);
     setAtividades(values);
   }
 
@@ -107,11 +109,12 @@ const Home = () => {
   }
 
   const getAtividadesUsuario = () => {
-    console.log("ENtrou na funca");
+    console.log("Entrou na funcao");
 
     window.api.send("toMain", { funcao: "getAtividades", usuario: idUsuario });
     window.api.receive("fromMain", (resposta) => {
       console.log('RESP', resposta);
+      setAtividades('');
       if (resposta) {
         salvarAtividades(resposta);
       }
@@ -143,10 +146,17 @@ const Home = () => {
           editable={true}
           selectable={true}
           locale={'pt-br'}
+          timeZone={'UTC'}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          buttonText={{
+            today: 'hoje', 
+            dayGridMonth: 'mês',
+            timeGridWeek: 'semana',
+            timeGridDay: 'dia'
           }}
           dateClick={function (info) {
             toggleDropdownAtividade(info.dateStr)

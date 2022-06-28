@@ -5,7 +5,7 @@ const FormAtividade = props => {
   const { date, closeDropdownAtividade } = props;
   const { Option } = Select;
   const [titulo, setTitulo] = useState();
-  const [descricao, setDescricao] = useState();
+  const [descricao, setDescricao] = useState('');
   const [id_situacao, setIdSituacao] = useState();
   const [id_rotulo, setIdRotulo] = useState();
   const [rotulo, setRotulo] = useState([]);

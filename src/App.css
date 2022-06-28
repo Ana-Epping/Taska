@@ -91,7 +91,7 @@ h1 {
 #button-close-modal,
 #button-close-modal-rotulo,
 #button-close-modal-detalhes {
-  margin: 0;
+  margin: 1px;
   line-height: 40px;
   box-sizing: content-box;
   width: 70px;
