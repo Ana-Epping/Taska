@@ -67,16 +67,23 @@ function createUsuario(usuario, senha) {
     });
 }
 
+function editarAtividade(atividade) {
+console.log('EDITAR ATIVIDADE', atividade);
+}
+
 function getAtividadesUsuario(usuario) {
 
     Atividade.getAtividades(usuario).then((resultado) => {
         if (resultado && resultado.length > 0) {
             let retorno = resultado.map((r) => {
                 let data = r['dataValues'];
-
-
-
-                return { id: data['id'], title: data['titulo'], date: data['data_inicio'], end: data['data_fim'], backgroundColor: '#f3f9ff', textColor: '#1890ff' }
+                data['backgroundColor'] = '#f3f9ff';
+                data['textColor'] = '#1890ff';
+                data['title'] = data['titulo'];
+                data['date'] = data['data_inicio'];
+                data['end'] = data['data_fim'];
+                data['id_atividade'] = data['id'];
+                return data;
             });
             mainWindow.webContents.send("fromMain", retorno)
         } else {
@@ -230,6 +237,10 @@ ipcMain.on("toMain", (event, args) => {
 
     if(args.funcao === 'deleteAtividade'){
         deleteAtividadeUsuario(args.usuario, args.idAtividade);
+    }
+
+    if(args.funcao === 'editarAtividade'){
+        editarAtividade(args.atividade);
     }
 
     // ROTULO
