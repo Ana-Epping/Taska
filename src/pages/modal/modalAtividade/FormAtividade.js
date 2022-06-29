@@ -13,7 +13,7 @@ const FormAtividade = props => {
 
 
   const [error, setError] = useState();
-  const [success, setSuccess] = useState();
+  // const [success, setSuccess] = useState();
 
   useEffect(() => {
     buscaRotulo();

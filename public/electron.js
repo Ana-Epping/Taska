@@ -1,4 +1,4 @@
-const { Menu, ipcMain, app, BrowserWindow } = require("electron");
+const { Menu, ipcMain, app, Tray, BrowserWindow } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 const Usuario = require('./db/usuario');
@@ -9,9 +9,12 @@ const Situacao = require('./db/situacao');
 let mainWindow;
 
 function createWindow() {
+    const appIcon = new Tray(__dirname+'/icon.png')
+
     mainWindow = new BrowserWindow({
         fullscreen: true,
         frame: false,
+        icon: __dirname+'/icon.png',
         webPreferences: {
             nodeIntegration: false, // is default value after Electron v5
             contextIsolation: true, // protect against prototype pollution
