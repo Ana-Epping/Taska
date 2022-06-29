@@ -27,12 +27,13 @@ const Home = () => {
   const [dropdownAtividadeDetalhes, setDropdownAtividadeDetatalhes] = useState("");
   const [date, setData] = useState("");
   const [idAtividade, setIdAtividade] = useState("");
+  const [atividadeEditar, setAtividadeEditar] = useState("");
   const [atividades, setAtividades] = useState([]);
   const modalRef = useRef(null);
 
   const toggleDropdownRotulo = () => {
     setDropdownRotulo("show");
-    setData(date);
+    // setData(date);
   }
 
   const closeDropdownRotulo = (event) => {
@@ -59,22 +60,23 @@ const Home = () => {
     // const contain = modalRef.current.contains(event.target);
     // console.log(contain);
     // if (!contain) { //se clicar fora do modal, ele DESaparece
-    //   console.log("hidden");
+    //   console.log("hidden");s
     setDropdownAtividade("");
     setData('');
+    setAtividadeEditar('');
     getAtividadesUsuario();
     // }
   };
 
-  const toggleDropdownAtividadeDetalhes = (idAtividade) => {
-    console.log('at id ', idAtividade);
+  const toggleDropdownAtividadeDetalhes = (idAtividade, atividade) => {
+    console.log('ABRE ATIVIDADE DETALHES ID E ATI ', idAtividade, atividade);
     setDropdownAtividadeDetatalhes("show");
     setIdAtividade(idAtividade);
-    getAtividadesUsuario();
+    setAtividadeEditar(atividade);
+    setData(atividade['data_inicio']);
   }
 
-  const closeDropdownAtividadeDetalhes = (event) => {
-    console.log('close detalhes');
+  const closeDropdownAtividadeDetalhes = (atividadeIsEditar = false, event) => {
     event && event.stopPropagation(); //impede de executar listeners dos filhos
     // const contain = modalRef.current.contains(event.target);
     // console.log(contain);
@@ -84,6 +86,12 @@ const Home = () => {
     setIdAtividade('');
     console.log('passou aqui')
     getAtividadesUsuario();
+
+    if(atividadeIsEditar){
+      toggleDropdownAtividade(date);
+    }else{
+      setAtividadeEditar('');
+    }
     // }
   };
 
@@ -92,21 +100,6 @@ const Home = () => {
     setAtividades(values);
   }
 
-  const updateAtividade = (event) => {
-    // TALVEZ A SER FEITO
-    // ATUALIZAR A HORA DA ATIVIDADE AO ARRASTÁ-LA.
-
-    // const idUsuario = localStorage.getItem("idUsuario");
-    // console.log('update atividade');
-    // window.api.send("toMain", {
-    //   funcao: "updateAtividade",
-    //   usuario: idUsuario, 
-    //   id: event.id, 
-    //   data_inicial: event.startStr, 
-    //   data_final: event.endStr, 
-    //   title: event.title 
-    // })
-  }
 
   const getAtividadesUsuario = () => {
     console.log("Entrou na funcao");
@@ -128,7 +121,7 @@ const Home = () => {
 
   return (
     <div>
-      {dropdownAtividade && <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} closeDropdownAtividade={closeDropdownAtividade} />}
+      {dropdownAtividade && <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} closeDropdownAtividade={closeDropdownAtividade} atividadeEditar={atividadeEditar} />}
       {dropdownRotulo && <ModalRotulo className={dropdownRotulo} modalRef={modalRef} closeDropdownRotulo={closeDropdownRotulo} />}
       {dropdownAtividadeDetalhes && <ModalAtividadeDetalhes className={dropdownAtividadeDetalhes} modalRef={modalRef} idAtividade={idAtividade} closeDropdownAtividadeDetalhes={closeDropdownAtividadeDetalhes}  />}
 
@@ -161,12 +154,9 @@ const Home = () => {
           dateClick={function (info) {
             toggleDropdownAtividade(info.dateStr)
           }}
-          eventDrop={({ event }) => {
-            updateAtividade(event);
-          }}
           eventClick={function (info) {
             console.log('ID ATIVIDADE', info.event.id);
-            toggleDropdownAtividadeDetalhes(info.event.id);
+            toggleDropdownAtividadeDetalhes(info.event.id, info.event.extendedProps);
           }
           }
           events={atividades} />

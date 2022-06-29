@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 const ListaAtividadeDetalhes = props => {
-  const { idAtividade } = props;
+  const { idAtividade, closeDropdownAtividadeDetalhes, toggleDropdownEditarSituacao } = props;
   const [atividadeDetalhes, setAtividadeDetalhes] = useState({});
 
   useEffect(() => {
@@ -24,9 +25,27 @@ const ListaAtividadeDetalhes = props => {
   const salvarAtividadeDetalhes = (value) => {
     setAtividadeDetalhes(value);
   }
+  const deleteAtividade = () => {
+    let idUsuario = localStorage.getItem("idUsuario");
+
+    window.api.send("toMain", { funcao: "deleteAtividade", usuario: idUsuario, idAtividade: idAtividade });
+    window.api.receive("fromMainDeleteAtividade", (resposta) => {
+      if (resposta) {
+        closeDropdownAtividadeDetalhes();
+      }
+    });
+}
+
+const editarAtividade = () => {
+  console.log('EDITAR RETORNO  CRIA CAO ', atividadeDetalhes);
+  closeDropdownAtividadeDetalhes(true);
+}
 
   return (
     <div className='atividade-detalhes'>
+      <button id="button-close-modal-detalhes" onClick={editarAtividade}><EditOutlined /></button>
+                <button id="button-close-modal-detalhes" onClick={deleteAtividade}><DeleteOutlined /></button>
+                
       <h2>Atividade</h2>
       {atividadeDetalhes && atividadeDetalhes['id'] &&
         <>

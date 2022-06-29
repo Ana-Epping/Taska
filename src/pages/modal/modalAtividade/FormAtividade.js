@@ -2,12 +2,12 @@ import { Form, Input, Button, Alert, Col, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const FormAtividade = props => {
-  const { date, closeDropdownAtividade } = props;
+  const { date, closeDropdownAtividade, atividadeEditar } = props;
   const { Option } = Select;
-  const [titulo, setTitulo] = useState();
+  const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [id_situacao, setIdSituacao] = useState();
-  const [id_rotulo, setIdRotulo] = useState();
+  const [id_situacao, setIdSituacao] = useState('');
+  const [id_rotulo, setIdRotulo] = useState(1);
   const [rotulo, setRotulo] = useState([]);
   const [situacao, setSituacao] = useState([]);
 
@@ -18,7 +18,13 @@ const FormAtividade = props => {
   useEffect(() => {
     buscaRotulo();
     buscaSituacoes();
-  },[]);
+    if(atividadeEditar && atividadeEditar['id_atividade']){
+      setTitulo(atividadeEditar['titulo']);
+      setDescricao(atividadeEditar['descricao']);
+      setIdRotulo(atividadeEditar['id_rotulo']);
+      setIdSituacao(atividadeEditar['id_situacao']);
+    }
+  }, []);
 
 
   const buscaRotulo = () => {
@@ -46,12 +52,12 @@ const FormAtividade = props => {
       }
     });
   }
-  
+
   const criaAtividade = () => {
     console.log('criar atividade');
     let idUsuario = localStorage.getItem("idUsuario");
 
-    console.log('situaccao / rotulo ',id_situacao, id_rotulo);
+    console.log('situaccao / rotulo ', id_situacao, id_rotulo);
     window.api.send("toMain", { funcao: "createAtividade", titulo: titulo, descricao: descricao, data_inicio: date, usuario: idUsuario, id_situacao: id_situacao, id_rotulo: id_rotulo });
     // window.api.receive("fromMain", (resposta) => { // NÃO ESTÁ SENDO USADO NO MOMENTO
     //   console.log('usuario response', resposta);
@@ -68,6 +74,15 @@ const FormAtividade = props => {
     closeDropdownAtividade();
   };
 
+  const editarAtividade = () => {
+
+    let idUsuario = localStorage.getItem("idUsuario");
+
+    window.api.send("toMain", { funcao: "editarAtividade", atividade:{id: atividadeEditar['id_atividade'], titulo: titulo, descricao: descricao, data_inicio: date, usuario: idUsuario, id_situacao: id_situacao, id_rotulo: id_rotulo} });
+  
+    closeDropdownAtividade();
+  }
+
   const errorAlert = error ? <Row>
     <Col span="8"></Col>
     <Col span="8">
@@ -76,13 +91,14 @@ const FormAtividade = props => {
   </Row> : ''
 
   const salvarTitulo = (e) => {
-    setTitulo(e.target.value);
+    console.log('titulo ', e);
+    setTitulo((e.target ? e.target.value : e));
   };
 
   const salvarDescricao = (e) => {
-    setDescricao(e.target.value);
+    console.log('desc ', e);
+    setDescricao((e.target ? e.target.value : e));
   };
-
 
   const salvarSituacao = (value) => {
     setSituacao(value);
@@ -93,28 +109,28 @@ const FormAtividade = props => {
   }
 
   const salvarIdSituacao = (value) => {
-    console.log('cor ', value);
+    console.log('sit ', value);
 
     setIdSituacao(value);
   };
 
   const salvarIdRotulo = (value) => {
-    console.log('cor ', value);
+    console.log('rot ', value);
 
     setIdRotulo(value);
   };
 
   return (
     <div className='atividade'>
-      <h2>Criar nova atividade</h2>
-      <Form onFinish={criaAtividade}>
+      <h2>{atividadeEditar && atividadeEditar['id_atividade'] ? 'Editar atividade' : 'Nova atividade'}</h2>
+      <Form onFinish={atividadeEditar && atividadeEditar['id_atividade'] ? editarAtividade : criaAtividade}>
         <Form.Item name="titulo"
           value={titulo}
           onChange={salvarTitulo}
           rules={[
             {
               required: true,
-              message: 'Por favor, insira o titulo!',
+              message: 'Por favor, insira o título!',
             },
           ]}
         >
