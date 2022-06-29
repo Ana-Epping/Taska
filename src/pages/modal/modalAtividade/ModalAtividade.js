@@ -5,7 +5,7 @@ import FormAtividade from './FormAtividade';
 
 
 const ModalAtividade = props => {
-    const { className, modalRef, date, closeDropdownAtividade, atividadeEditar } = props;
+    const { className, modalRef, date, closeDropdownAtividade, atividadeEditar, toggleDropdownAtividadeDetalhes } = props;
 
     console.log('sTE ',date,atividadeEditar);
 
@@ -13,7 +13,7 @@ const ModalAtividade = props => {
         <div ref={modalRef} className={`${className} modal`}>
             <div className="modal-content">
                 <button id="button-close-modal" onClick={closeDropdownAtividade}>x</button>
-                <FormAtividade date={date} closeDropdownAtividade={closeDropdownAtividade} atividadeEditar={atividadeEditar} />
+                <FormAtividade date={date} closeDropdownAtividade={closeDropdownAtividade} atividadeEditar={atividadeEditar} toggleDropdownAtividadeDetalhes={toggleDropdownAtividadeDetalhes}/>
             </div>
         </div>
     )

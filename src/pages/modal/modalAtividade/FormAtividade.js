@@ -2,7 +2,7 @@ import { Form, Input, Button, Alert, Col, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const FormAtividade = props => {
-  const { date, closeDropdownAtividade, atividadeEditar } = props;
+  const { date, closeDropdownAtividade, atividadeEditar, toggleDropdownAtividadeDetalhes } = props;
   const { Option } = Select;
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -78,9 +78,18 @@ const FormAtividade = props => {
 
     let idUsuario = localStorage.getItem("idUsuario");
 
-    window.api.send("toMain", { funcao: "editarAtividade", atividade:{id: atividadeEditar['id_atividade'], titulo: titulo, descricao: descricao, data_inicio: date, usuario: idUsuario, id_situacao: id_situacao, id_rotulo: id_rotulo} });
+    window.api.send("toMain", { 
+      funcao: "editarAtividade", 
+      atividade:{id: atividadeEditar['id_atividade'], 
+      titulo: titulo, 
+      descricao: descricao, 
+      data_inicio: date, 
+      usuario: idUsuario, 
+      id_situacao: id_situacao, 
+      id_rotulo: id_rotulo} });
   
     closeDropdownAtividade();
+    toggleDropdownAtividadeDetalhes(atividadeEditar['id_atividade'], atividadeEditar);
   }
 
   const errorAlert = error ? <Row>
