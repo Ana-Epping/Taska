@@ -87,20 +87,40 @@ const Home = () => {
     console.log('passou aqui')
     getAtividadesUsuario();
 
-    console.log("Atividade Is Editar"+atividadeEditar.values);
-    if(atividadeIsEditar == true){
+    console.log("Atividade Is Editar" + atividadeEditar.values);
+    if (atividadeIsEditar == true) {
       toggleDropdownAtividade(date);
-    }else{
+    } else {
       setAtividadeEditar('');
     }
     // }
   };
 
+  const updateDataAtividade = (atividadeId, atividadeInfo, data) => {
+    let idUsuario = localStorage.getItem("idUsuario");
+
+    window.api.send("toMain", {
+      funcao: "updateDataAtividade",
+      atividade: {
+        id: atividadeId,
+        titulo: atividadeInfo.titulo,
+        descricao: atividadeInfo.descricao,
+        data_inicio: data,
+        usuario: idUsuario,
+        id_situacao: atividadeInfo.id_situacao,
+        id_rotulo: atividadeInfo.id_rotulo
+      }
+    });
+
+    getAtividadesUsuario();
+    toggleDropdownAtividadeDetalhes(atividadeId, atividadeInfo);
+    getAtividadesUsuario();
+  }
+
   const salvarAtividades = (values) => {
     console.log('salvar atividades', values);
     setAtividades(values);
   }
-
 
   const getAtividadesUsuario = () => {
     console.log("Entrou na funcao");
@@ -122,9 +142,9 @@ const Home = () => {
 
   return (
     <div>
-      {dropdownAtividade && <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} closeDropdownAtividade={closeDropdownAtividade} atividadeEditar={atividadeEditar} toggleDropdownAtividadeDetalhes={toggleDropdownAtividadeDetalhes}/>}
+      {dropdownAtividade && <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} closeDropdownAtividade={closeDropdownAtividade} atividadeEditar={atividadeEditar} toggleDropdownAtividadeDetalhes={toggleDropdownAtividadeDetalhes} />}
       {dropdownRotulo && <ModalRotulo className={dropdownRotulo} modalRef={modalRef} closeDropdownRotulo={closeDropdownRotulo} />}
-      {dropdownAtividadeDetalhes && <ModalAtividadeDetalhes className={dropdownAtividadeDetalhes} modalRef={modalRef} idAtividade={idAtividade} closeDropdownAtividadeDetalhes={closeDropdownAtividadeDetalhes}  />}
+      {dropdownAtividadeDetalhes && <ModalAtividadeDetalhes className={dropdownAtividadeDetalhes} modalRef={modalRef} idAtividade={idAtividade} closeDropdownAtividadeDetalhes={closeDropdownAtividadeDetalhes} />}
 
       <div className='menu'>
         {/* <ModalAtividade className={dropdownAtividade} modalRef={modalRef} date={date} />
@@ -139,6 +159,7 @@ const Home = () => {
           weekends={true}
           editable={true}
           selectable={true}
+          defaultAllDay={true}
           locale={'pt-br'}
           timeZone={'UTC'}
           headerToolbar={{
@@ -147,7 +168,7 @@ const Home = () => {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           }}
           buttonText={{
-            today: 'hoje', 
+            today: 'hoje',
             dayGridMonth: 'mês',
             timeGridWeek: 'semana',
             timeGridDay: 'dia'
@@ -158,8 +179,10 @@ const Home = () => {
           eventClick={function (info) {
             console.log('ID ATIVIDADE', info.event.id);
             toggleDropdownAtividadeDetalhes(info.event.id, info.event.extendedProps);
-          }
-          }
+          }}
+          eventDrop={function (info) {
+            updateDataAtividade(info.event.id, info.event.extendedProps, info.event.start);
+          }}
           events={atividades} />
       </div>
 

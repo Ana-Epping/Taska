@@ -85,4 +85,13 @@ Atividade.updateAtividade = async (atividade) => {
     return await atividadeUp.save();
 }
 
+Atividade.updateDataHora = async (atividade) => {
+    const {data_inicio} = atividade;
+    const atividadeUp = await Atividade.getAtividade(atividade.usuario, atividade.id)
+
+    atividadeUp.data_inicio = data_inicio;
+
+    return await atividadeUp.save();
+}
+
 module.exports = Atividade;

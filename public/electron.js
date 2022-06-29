@@ -75,6 +75,14 @@ function editarAtividade(atividade) {
     });
 }
 
+function updateDataAtividade(atividade) {
+    Atividade.updateDataHora(atividade).then((resultado) => {
+        
+    }).catch((e) => {
+        console.log(e);
+    });
+}
+
 function getAtividadesUsuario(usuario) {
 
     Atividade.getAtividades(usuario).then((resultado) => {
@@ -136,15 +144,6 @@ function deleteAtividadeUsuario(usuario, idAtividade) {
         mainWindow.webContents.send("fromMainDeleteAtividade", resultado)
     }).catch((e) => {
         console.log('erro delete ', e);
-    });
-}
-
-function updateAtividadeUsuario(usuario, id, titulo, descricao, data_inicio, id_situacao, id_rotulo) {
-    let data = { 'id_usuario': usuario, 'id': id, 'titulo': titulo, 'descricao': descricao, 'data_inicio': data_inicio, 'id_situacao': id_situacao, 'id_rotulo': id_rotulo };
-    Atividade.updateAtividade(data).then((resultado) => {
-
-    }).catch((e) => {
-        console.log(e);
     });
 }
 
@@ -254,6 +253,10 @@ ipcMain.on("toMain", (event, args) => {
 
     if (args.funcao === 'editarAtividade') {
         editarAtividade(args.atividade);
+    }
+
+    if (args.funcao === 'updateDataAtividade') {
+        updateDataAtividade(args.atividade);
     }
 
     // ROTULO
