@@ -87,7 +87,8 @@ const Home = () => {
     console.log('passou aqui')
     getAtividadesUsuario();
 
-    if(atividadeIsEditar){
+    console.log("Atividade Is Editar"+atividadeEditar.values);
+    if(atividadeIsEditar == true){
       toggleDropdownAtividade(date);
     }else{
       setAtividadeEditar('');

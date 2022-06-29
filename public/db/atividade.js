@@ -49,13 +49,13 @@ const Atividade = database.define('atividade', {
 //     });
 // }
 Atividade.getAtividades = async (usuario) => {
-    let resultado = await Atividade.findAll({ where: { id_usuario: usuario}});
+    let resultado = await Atividade.findAll({ where: { id_usuario: usuario } });
 
     return resultado;
 }
 
 Atividade.getAtividade = async (idUsuario, idAtividade) => {
-    let  resultado = Atividade.findOne({ where: { id: idAtividade, id_usuario: idUsuario } });
+    let resultado = Atividade.findOne({ where: { id: idAtividade, id_usuario: idUsuario } });
 
     return resultado;
 }
@@ -69,7 +69,20 @@ Atividade.deleteAtividade = async (atividade) => {
 
     return await Atividade.destroy({
         where: atividade,
-      });
+    });
+}
+
+Atividade.updateAtividade = async (atividade) => {
+    const { titulo, descricao, data_inicio, id_rotulo, id_situacao } = atividade;
+    const atividadeUp = await Atividade.getAtividade(atividade.usuario, atividade.id);
+
+    atividadeUp.titulo = titulo;
+    atividadeUp.descricao = descricao;
+    atividadeUp.data_inicio = data_inicio;
+    atividadeUp.id_rotulo = id_rotulo;
+    atividadeUp.id_situacao = id_situacao;
+
+    return await atividadeUp.save();
 }
 
 module.exports = Atividade;

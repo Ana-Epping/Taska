@@ -122,8 +122,8 @@ const FormAtividade = props => {
 
   return (
     <div className='atividade'>
-      <h2>{atividadeEditar && atividadeEditar['id_atividade'] ? 'Editar atividade' : 'Nova atividade'}</h2>
-      <Form onFinish={atividadeEditar && atividadeEditar['id_atividade'] ? editarAtividade : criaAtividade}>
+      <h2>{atividadeEditar || atividadeEditar['id_atividade'] ? 'Editar atividade' : 'Nova atividade'}</h2>
+      <Form onFinish={atividadeEditar || atividadeEditar['id_atividade'] ? editarAtividade : criaAtividade}>
         <Form.Item name="titulo"
           value={titulo}
           onChange={salvarTitulo}

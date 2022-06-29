@@ -9,12 +9,12 @@ const Situacao = require('./db/situacao');
 let mainWindow;
 
 function createWindow() {
-    const appIcon = new Tray(__dirname+'/icon.png')
+    const appIcon = new Tray(__dirname + '/icon.png')
 
     mainWindow = new BrowserWindow({
         fullscreen: true,
         frame: false,
-        icon: __dirname+'/icon.png',
+        icon: __dirname + '/icon.png',
         webPreferences: {
             nodeIntegration: false, // is default value after Electron v5
             contextIsolation: true, // protect against prototype pollution
@@ -68,7 +68,11 @@ function createUsuario(usuario, senha) {
 }
 
 function editarAtividade(atividade) {
-console.log('EDITAR ATIVIDADE', atividade);
+    Atividade.updateAtividade(atividade).then((resultado) => {
+
+    }).catch((e) => {
+        console.log(e);
+    });
 }
 
 function getAtividadesUsuario(usuario) {
@@ -125,13 +129,22 @@ function createAtividadeUsuario(usuario, titulo, descricao, data_inicio, id_situ
     });
 }
 
-function deleteAtividadeUsuario(usuario, idAtividade){
-        
+function deleteAtividadeUsuario(usuario, idAtividade) {
+
     let data = { id_usuario: usuario, id: idAtividade };
     Atividade.deleteAtividade(data).then((resultado) => {
         mainWindow.webContents.send("fromMainDeleteAtividade", resultado)
     }).catch((e) => {
-        console.log('erro delete ',e);
+        console.log('erro delete ', e);
+    });
+}
+
+function updateAtividadeUsuario(usuario, id, titulo, descricao, data_inicio, id_situacao, id_rotulo) {
+    let data = { 'id_usuario': usuario, 'id': id, 'titulo': titulo, 'descricao': descricao, 'data_inicio': data_inicio, 'id_situacao': id_situacao, 'id_rotulo': id_rotulo };
+    Atividade.updateAtividade(data).then((resultado) => {
+
+    }).catch((e) => {
+        console.log(e);
     });
 }
 
@@ -235,11 +248,11 @@ ipcMain.on("toMain", (event, args) => {
         createAtividadeUsuario(args.usuario, args.titulo, args.descricao, args.data_inicio, args.id_situacao, args.id_rotulo);
     }
 
-    if(args.funcao === 'deleteAtividade'){
+    if (args.funcao === 'deleteAtividade') {
         deleteAtividadeUsuario(args.usuario, args.idAtividade);
     }
 
-    if(args.funcao === 'editarAtividade'){
+    if (args.funcao === 'editarAtividade') {
         editarAtividade(args.atividade);
     }
 
