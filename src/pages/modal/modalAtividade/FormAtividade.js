@@ -2,6 +2,7 @@ import { Form, Input, Button, Alert, Col, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const FormAtividade = props => {
+  const [form] = Form.useForm();
   const { date, closeDropdownAtividade, atividadeEditar, toggleDropdownAtividadeDetalhes } = props;
   const { Option } = Select;
   const [titulo, setTitulo] = useState('');
@@ -23,6 +24,12 @@ const FormAtividade = props => {
       setDescricao(atividadeEditar['descricao']);
       setIdRotulo(atividadeEditar['id_rotulo']);
       setIdSituacao(atividadeEditar['id_situacao']);
+      form.setFieldsValue({
+        titulo: atividadeEditar['titulo'],
+        descricao: atividadeEditar['descricao'],
+        id_rotulo: atividadeEditar['id_rotulo'],
+        id_situacao: atividadeEditar['id_situacao']
+      });
     }
   }, []);
 
@@ -132,7 +139,7 @@ const FormAtividade = props => {
   return (
     <div className='atividade'>
       <h2>{atividadeEditar || atividadeEditar['id_atividade'] ? 'Editar atividade' : 'Nova atividade'}</h2>
-      <Form onFinish={atividadeEditar || atividadeEditar['id_atividade'] ? editarAtividade : criaAtividade}>
+      <Form form={form} onFinish={atividadeEditar || atividadeEditar['id_atividade'] ? editarAtividade : criaAtividade}>
         <Form.Item name="titulo"
           value={titulo}
           onChange={salvarTitulo}
@@ -159,7 +166,7 @@ const FormAtividade = props => {
         </Form.Item>
 
 
-        <Form.Item name="situacao"
+        <Form.Item name="id_situacao"
           value={id_situacao}
           onChange={salvarIdSituacao}
           rules={[
@@ -183,7 +190,7 @@ const FormAtividade = props => {
           </Select>
         </Form.Item>
 
-        <Form.Item name="rotulo"
+        <Form.Item name="id_rotulo"
           value={id_rotulo}
           onChange={salvarIdRotulo}
           rules={[
