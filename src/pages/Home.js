@@ -159,7 +159,6 @@ const Home = () => {
           weekends={true}
           editable={true}
           selectable={true}
-          defaultAllDay={true}
           locale={'pt-br'}
           timeZone={'UTC'}
           headerToolbar={{
